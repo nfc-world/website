@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Купете Онлайн Визитки</title>
+    <style>
+        /* General styling for body and container */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        header h1 {
+            color: #1a73e8;
+            font-size: 2em;
+            margin: 0;
+        }
+
+        /* Styling for product cards */
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .card {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 250px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: scale(1.05);
+        }
+        
+        .card img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            font-size: 1.2em;
+            color: #333;
+            margin: 10px 0;
+        }
+        
+        .card p {
+            font-size: 1em;
+            color: #666;
+        }
+        
+        .card button {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .card button:hover {
+            background-color: #145ca4;
+        }
+
+        /* Cart section styling */
+        .cart {
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart h2 {
+            text-align: center;
+            color: #1a73e8;
+            font-size: 1.5em;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .cart-item p {
+            margin: 0;
+            font-size: 1em;
+            color: #333;
+        }
+
+        .cart-total {
+            text-align: center;
+            font-size: 1.2em;
+            margin: 15px 0;
+            color: #333;
+        }
+
+        /* Buy button styling */
+        .cart button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .cart button:hover {
+            background-color: #388e3c;
+        }
+
+        /* Remove button styling */
+        .cart-item button {
+            background-color: #e64a19;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+
+        .cart-item button:hover {
+            background-color: #c62828;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Купете Вашата Онлайн Визитка</h1>
+</header>
+
+<div class="container">
+    <!-- Sample Product 1 -->
+    <div class="card">
+        <img src="card1.jpg" alt="Визитка Стил 1">
+        <h2>Онлайн Визитка - Стил 1</h2>
+        <p>Цена: 20 лв.</p>
+        <button onclick="addToCart('Онлайн Визитка - Стил 1', 20)">Добави в количката</button>
+    </div>
+
+    <!-- Sample Product 2 -->
+    <div class="card">
+        <img src="card2.jpg" alt="Визитка Стил 2">
+        <h2>Онлайн Визитка - Стил 2</h2>
+        <p>Цена: 25 лв.</p>
+        <button onclick="addToCart('Онлайн Визитка - Стил 2', 25)">Добави в количката</button>
+    </div>
+</div>
+
+<!-- Cart Section -->
+<div class="cart" id="cart">
+    <h2>Количка</h2>
+    <div id="cart-items"></div>
+    <p class="cart-total" id="cart-total">Общо: 0 лв.</p>
+    <button onclick="buyItems()">Купи</button>
+</div>
+
+<script>
+    let cart = [];
+
+    function addToCart(name, price) {
+        cart.push({ name, price });
+        updateCart();
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCart();
+    }
+
+    function updateCart() {
+        const cartItemsDiv = document.getElementById('cart-items');
+        cartItemsDiv.innerHTML = '';
+
+        let total = 0;
+        cart.forEach((item, index) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'cart-item';
+
+            itemDiv.innerHTML = `
+                <p>${item.name} - ${item.price} лв.</p>
+                <button onclick="removeFromCart(${index})">Премахни</button>
+            `;
+            cartItemsDiv.appendChild(itemDiv);
+
+            total += item.price;
+        });
+
+        document.getElementById('cart-total').textContent = `Общо: ${total} лв.`;
+    }
+
+function buyItems() {
+    if (cart.length === 0) {
+        alert("Количката ви е празна!");
+        return;
+    }
+
+    // Съхраняване на брой чипове и обща сума в localStorage
+    const total = cart.reduce((acc, item) => acc + item.price, 0);
+    const itemCount = cart.length;
+
+    localStorage.setItem('cartCount', itemCount);
+    localStorage.setItem('cartTotal', total);
+    
+    // Изпразвяне на количката
+    cart = [];
+    updateCart();
+
+    // Пренасочване към checkout.html
+    window.location.href = 'checkout.html';
+
+        }
+</script>
+
+</body>
+</html>
