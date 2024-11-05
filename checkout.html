@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завършване на Поръчка</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #145ca4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Завършете Вашата Поръчка</h2>
+        <form id="orderForm">
+            <input type="text" id="name" placeholder="Вашето име" required>
+            <input type="tel" id="phone" placeholder="Вашият телефон" required>
+            <textarea id="address" placeholder="Вашият адрес" required></textarea>
+            <p id="cartInfo"></p> <!-- За информацията от количката -->
+            <button type="submit">Завърши поръчката</button>
+        </form>
+        <p id="responseMessage"></p>
+        <a href="index.html">Обратно към началната страница</a>
+    </div>
+
+    <script>
+        // Функция за извличане на информация от количката
+        function displayCartInfo() {
+            const itemCount = localStorage.getItem('cartCount') || 0; // Брой чипове
+            const total = localStorage.getItem('cartTotal') || 0; // Обща сума
+            document.getElementById('cartInfo').innerHTML = `Брой чипове: ${itemCount}<br>Обща сума: ${total} лв.`;
+        }
+
+        // Извличане на информация при зареждане на страницата
+        displayCartInfo();
+
+        document.getElementById('orderForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Прекратяване на стандартното поведение на формуляра
+
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+
+            // Създаване на имейл съдържание
+            const emailContent = {
+                service_id: 'service_dgk6x6n',         // Вашето EmailJS Service ID
+                template_id: 'template_e0y4inu',       // Вашето EmailJS Template ID
+                user_id: 'TlEa3CKwVPcFf_gKv',          // Вашият EmailJS User ID (публичен ключ)
+                template_params: {
+                    'from_name': name,
+                    'to_name': 'Денислав',
+                    'phone': phone,
+                    'address': address,
+                    'item_count': localStorage.getItem('cartCount') || '0',
+                    'total': localStorage.getItem('cartTotal') || '0'
+                }
+            };
+
+            // Изпращане на заявка чрез fetch API
+            fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(emailContent)
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('responseMessage').innerText = "Вашата поръчка е изпратена успешно!";
+                    localStorage.removeItem('cartCount');
+                    localStorage.removeItem('cartTotal');
+                    displayCartInfo(); // Обновяване на информацията
+                } else {
+                    throw new Error(`Error: ${response.status}`);
+                }
+            })
+            .catch(error => {
+                console.error('EmailJS Error:', error);
+                document.getElementById('responseMessage').innerText = "Грешка при изпращане на поръчката! Вижте конзолата за повече информация.";
+            });
+        });
+    </script>
+</body>
+</html>
