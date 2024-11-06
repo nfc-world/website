@@ -11,7 +11,7 @@
             font-family: Arial, sans-serif;
             background: #bababa;
             margin: 0;
-            padding: 50px;
+            padding: 20px;
             color: #333;
         }
 
@@ -162,18 +162,35 @@
             color: red;
             text-align: center;
             margin-top: 20px;
+
         }
+.chip-image {
+            width: 160px;
+            margin-center: 30px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .chip-image:hover {
+            transform: rotate(10deg);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
     </style>
 </head>
 <body>
 
 <header style="text-align: center;">
     <h1 style="font-family: Arial, sans-serif;">NFC WORLD</h1>
-    <p style="font-family: Arial, sans-serif; font-size: 1.2em;">Плюсовете на смарт визитките и защо да ни изберете:</p>
+    <p style="font-family: Arial, sans-serif; font-size: 1.2em;">„Един чип, безкрайни възможности!“</p>
 </header>
-<section style="text-align: left; font-family: Arial, sans-serif;">
-    <p><strong>Смарт визитки под формата на преносим чип</strong></p>
-    <p><strong>Плюсовете на смарт визитките:</strong></p>
+<section style="text-align: center; font-family: Arial, sans-serif;">
+   
+        <p><strong>Смарт визитки под формата на чип</strong></p>
+<div style="text-align: center; margin-top: 60px; margin-bottom: 60px">
+    <img src="chip.png" alt="Чип визитка" class="chip-image">
+</section>
+   <p><strong>Плюсовете на смарт визитките:</strong></p>
     <ul style="list-style-type: none; padding: 0;">
         <li><strong>Екологични:</strong> Без хартия, без отпадъци – смарт визитките са изцяло цифрови и не замърсяват околната среда.</li>
         <li><strong>Удобство:</strong> Лесно споделяне на контактна информация чрез NFC технология с едно докосване на телефона.</li>
@@ -223,6 +240,16 @@
         <button onclick="addToCart('Бизнес смарт визитка', 25)">Добави в количката</button>
     </div>
 </div>
+<section id="contacts">
+     <h2 class="center-text">Контакти</h2>
+     <p class="center-text">Можете да се свържете с нас по следните начини:</p>
+     <ul class="center-text">
+        <li><i class="fas fa-phone"></i> Телефон: +359 878 22 0107</li>
+        <li><i class="fas fa-envelope"></i> Имейл: <a href="mailto:marazov2003@gmail.com">contact@yourdomain.com</a></li>
+        <li><i class="fab fa-instagram"></i> Instagram: <a href="https://www.instagram.com/yourprofile" target="_blank">yourprofile</a></li>
+        <li><i class="fab fa-facebook"></i> Facebook: <a href="https://www.facebook.com/yourprofile" target="_blank">yourprofile</a></li>
+    </ul>
+</section>
 
 <script>
     let cart = [];
@@ -263,12 +290,12 @@
             buyTotal.textContent = total + ' лв.';
             buyButton.style.display = 'block'; // Show the "Buy" button when the cart is not empty
 
-            cartContent.innerHTML = cart.map((item, index) => `
+            cartContent.innerHTML = cart.map((item, index) => 
                 <div class="cart-item">
                     <span>${item.productName} - ${item.price} лв.</span>
                     <button onclick="removeFromCart(${index})">Премахни</button>
                 </div>
-            `).join('');
+            ).join('');
         }
     }
 
@@ -302,4 +329,4 @@
 </script>
 
 </body>
-</html>
+</html> 
