@@ -10,7 +10,6 @@
         body {
             font-family: Arial, sans-serif;
             background: #bababa;
-	    
             margin: 0;
             padding: 50px;
             color: #333;
@@ -63,19 +62,20 @@
             width: 250px;
             padding: 20px;
             text-align: center;
-	    margin-top: 30px;
+            margin-top: 30px;
             margin-bottom: 70px;
         }
 
         .card img {
             max-width: 100%;
-    	    border-radius: 8px;
-            transition: transform 0.3s ease; /* Плавно преливане на трансформацията */
-}
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
 
-.card img:hover {
-    transform: scale(1.1); /* Увеличава размера на изображението при hover */
-}
+        .card img:hover {
+            transform: scale(1.1);
+        }
+
         .card h2 {
             font-size: 1.2em;
             color: #333;
@@ -119,11 +119,11 @@
              background-color: #e64a19;
              color: white;
              border: none;
-    	     padding: 3px 6px; /* Намаляваме вътрешното отстояние */
-             font-size: 0.8em; /* Намаляваме шрифта, ако е необходимо */
+             padding: 3px 6px;
+             font-size: 0.8em;
              border-radius: 5px;
-             width: 70px; /* Установяваме фиксирана ширина */
-             height: 25px; /* Установяваме фиксирана височина */
+             width: 70px;
+             height: 25px;
             cursor: pointer;
         }
 
@@ -136,25 +136,31 @@
 
         /* Buy button styling */
         .checkout-button {
-        padding: 24px 90px; /* Увеличаваме размера на бутона */
-    background-color: #269431;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    position: fixed; /* Фиксираме бутона в долната част */
-    bottom: 20px; /* Разстояние от дъното */
-    left: 50%; /* Центрираме */
-    transform: translateX(-50%); /* Центрираме точно */
-    transition: transform 0.2s, padding 0.2s; /* Анимация за уголемяване */
-    cursor: pointer;
+            padding: 24px 90px;
+            background-color: #269431;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: transform 0.2s, padding 0.2s;
+            cursor: pointer;
+        }
 
-}
+        .checkout-button:hover {
+            transform: translateX(-50%) scale(0.95);
+            padding: 23px 89px;
+        }
 
-/* Уголемяване на бутона при задържане с мишката */
-.checkout-button:hover {
-    transform: translateX(-50%) scale(0.95); /* Намаляваме размера на бутона */
-    padding: 23px 89px; /* Намаляваме размера на бутона при задържане */
-}
+        /* Empty cart message */
+        #empty-cart-message {
+            display: none;
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -194,6 +200,10 @@
     <div id="cart-content"></div>
     <p class="cart-total" id="cart-total">Общо: 0 лв.</p>
 </div>
+
+<!-- Empty cart message -->
+<div id="empty-cart-message">Количката ви е празна, моля добавете продукт!</div>
+
 <button class="checkout-button" id="buy-button" onclick="buyItems()">Купи</button>
 
 <!-- Product Cards -->
@@ -216,60 +226,63 @@
     <h2>Контакти</h2>
     <p>Можете да се свържете с нас по следните начини:</p>
     <ul>
-        <li><i class="fas fa-phone"></i> Телефон: +359 878 22 0107</li>
-        <li><i class="fas fa-envelope"></i> Имейл: <a href="mailto:marazov2003@gmail.com">contact@yourdomain.com</a></li>
-        <li><i class="fab fa-instagram"></i> Instagram: <a href="https://www.instagram.com/yourprofile" target="_blank">yourprofile</a></li>
-        <li><i class="fab fa-facebook"></i> Facebook: <a href="https://www.facebook.com/yourprofile" target="_blank">yourprofile</a></li>
+        <li><i class="fas fa-phone"></i> Телефон: 0878 22 0107</li>
+        <li><i class="fas fa-envelope"></i> Email: marazov2003@gmail.com</li>
     </ul>
 </section>
 
 <script>
     let cart = [];
 
-    function addToCart(name, price) {
-        console.log(`Добавяне на продукт: ${name} - ${price} лв.`); // Дебъгинг съобщение
-        cart.push({ name, price });
+    // Add item to the cart
+    function addToCart(productName, price) {
+        cart.push({ productName, price });
         updateCart();
-        document.getElementById('buy-button').style.display = 'block'; // Показваме бутона "Купи"
-        toggleCart(); // Показваме количката
     }
 
+    // Remove item from the cart
     function removeFromCart(index) {
         cart.splice(index, 1);
         updateCart();
     }
 
+    // Update the cart display
     function updateCart() {
         const cartCount = document.getElementById('cart-count');
-        cartCount.textContent = cart.length;
-
         const cartContent = document.getElementById('cart-content');
-        cartContent.innerHTML = '';
+        const cartTotal = document.getElementById('cart-total');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        
+        // Show or hide the empty cart message
+        if (cart.length === 0) {
+            cartContent.innerHTML = '';
+            cartCount.textContent = '0';
+            cartTotal.textContent = 'Общо: 0 лв.';
+            emptyCartMessage.style.display = 'block';
+        } else {
+            emptyCartMessage.style.display = 'none';
+            cartCount.textContent = cart.length;
+            cartTotal.textContent = 'Общо: ' + cart.reduce((acc, item) => acc + item.price, 0) + ' лв.';
 
-        let total = 0;
-        cart.forEach((item, index) => {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'cart-item';
-            itemDiv.innerHTML = `
-                <p>${item.name} - ${item.price} лв.</p>
-                <button onclick="removeFromCart(${index})">Премахни</button>
-            `;
-            cartContent.appendChild(itemDiv);
-            total += item.price;
-        });
-
-        document.getElementById('cart-total').textContent = `Общо: ${total} лв.`;
+            cartContent.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <span>${item.productName} - ${item.price} лв.</span>
+                    <button onclick="removeFromCart(${index})">Премахни</button>
+                </div>
+            `).join('');
+        }
     }
 
+    // Toggle cart display
     function toggleCart() {
-    const cartItems = document.getElementById('cart-items');
-    cartItems.style.display = 'block'; // Винаги показвайте количката, когато е извикана функцията
-
+        const cartItems = document.getElementById('cart-items');
+        cartItems.style.display = cartItems.style.display === 'block' ? 'none' : 'block';
     }
 
+    // Handle buy action
     function buyItems() {
         if (cart.length === 0) {
-            alert("Количката ви е празна, моля добавете продукт!");
+            document.getElementById('empty-cart-message').style.display = 'block';
             return;
         }
 
@@ -291,4 +304,3 @@
 
 </body>
 </html>
-
