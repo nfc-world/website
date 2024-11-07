@@ -23,7 +23,7 @@
             border-radius: 8px;
             text-align: center;
         }
-        input, textarea {
+        input, button {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -31,71 +31,110 @@
             border-radius: 5px;
         }
         button {
-            padding: 10px 20px;
-            background-color: #1a73e8;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+
+        padding: 12px 25px; /* Increase the size */
+    	background-color: #28a745; /* Green color */
+    	color: white;
+    	border: none;
+    	border-radius: 5px;
+    	cursor: pointer;
+    	font-size: 16px;
         }
         button:hover {
-            background-color: #145ca4;
+           background-color: #218838;
         }
+        .error {
+            color: red;
+            font-size: 14px;
+            display: none; /* Hidden initially */
+        }
+	    .contact-info {
+        margin-top: 40px; /* Increased margin-top */
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 40px; /* Added margin-bottom for more space */
+    }
+    .contact-info a {
+        color: #007bff;
+        text-decoration: none;
+    }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Завършете Вашата Поръчка</h2>
         <form id="orderForm">
+            <p id="cartInfo"></p>
             <input type="text" id="name" placeholder="Вашето име" required>
-            <input type="tel" id="phone" placeholder="Вашият телефон" required>
-            <textarea id="address" placeholder="Вашият адрес" required></textarea>
-            <p id="cartInfo"></p> <!-- За информацията от количката -->
-            <button type="submit">Завърши поръчката</button>
+            <input type="email" id="email" placeholder="Вашият имейл" required>
+	     <h3>Тук може да добавете линкве към социалните мрежи, телефонен номер и снимка за Вашата смарт визитка чрез Instagram</h3>
+
+            <button type="button" id="instagramBtn" onclick="openInstagram()">Добавяне чрез инстаграм</button>
+            <p id="errorText" class="error">Моля изпратете линкове към вашите социални межи, телефонен номер и снимка, за да завършите поръчката.</p>
+            <button type="submit" id="submitBtn">Завършете Вашата поръчка</button>
         </form>
         <p id="responseMessage"></p>
         <a href="index.html">Обратно към началната страница</a>
     </div>
 
+    <div class="contact-info">
+        <p>Ако имате въпроси или затруднения, свържете се с нас на:</p>
+        <p>Имейл: <a href="mailto:info@yourcompany.com">info@yourcompany.com</a></p>
+        <p>Телефон: +359 88 123 4567</p>
+	
+    </div>
+
     <script>
-        // Функция за извличане на информация от количката
+        let instagramClicked = false;
+
+        // Function to open Instagram and set instagramClicked to true
+        function openInstagram() {
+            window.open('https://www.instagram.com/', '_blank');
+            instagramClicked = true;
+            document.getElementById('errorText').style.display = 'none'; // Hide error message if Instagram is clicked
+        }
+
+        // Function to display cart info (number of items and total price)
         function displayCartInfo() {
-            const itemCount = localStorage.getItem('cartCount') || 0; // Брой чипове
-            const total = localStorage.getItem('cartTotal') || 0; // Обща сума
+            const itemCount = localStorage.getItem('cartCount') || 0;
+            const total = localStorage.getItem('cartTotal') || 0;
             document.getElementById('cartInfo').innerHTML = `Брой чипове: ${itemCount}<br>Обща сума: ${total} лв.`;
         }
 
-        // Извличане на информация при зареждане на страницата
         displayCartInfo();
 
+        // Submit event for the form
         document.getElementById('orderForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Прекратяване на стандартното поведение на формуляра
+            event.preventDefault();
 
+            // If Instagram button was not clicked, show error message
+            if (!instagramClicked) {
+                document.getElementById('errorText').style.display = 'block'; // Show error in red
+                return;
+            }
+
+            // Collect data from the form and send it via EmailJS
             const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const address = document.getElementById('address').value;
+            const email = document.getElementById('email').value;
+            const itemCount = localStorage.getItem('cartCount') || '0';
+            const total = localStorage.getItem('cartTotal') || '0';
 
-            // Създаване на имейл съдържание
             const emailContent = {
-                service_id: 'service_dgk6x6n',         // Вашето EmailJS Service ID
-                template_id: 'template_e0y4inu',       // Вашето EmailJS Template ID
-                user_id: 'TlEa3CKwVPcFf_gKv',          // Вашият EmailJS User ID (публичен ключ)
+                service_id: 'service_dgk6x6n',
+                template_id: 'template_e0y4inu',
+                user_id: 'TlEa3CKwVPcFf_gKv',
                 template_params: {
                     'from_name': name,
                     'to_name': 'Денислав',
-                    'phone': phone,
-                    'address': address,
-                    'item_count': localStorage.getItem('cartCount') || '0',
-                    'total': localStorage.getItem('cartTotal') || '0'
+                    'email': email,
+                    'item_count': itemCount,
+                    'total': total,
                 }
             };
 
-            // Изпращане на заявка чрез fetch API
             fetch('https://api.emailjs.com/api/v1.0/email/send', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(emailContent)
             })
             .then(response => {
@@ -103,14 +142,14 @@
                     document.getElementById('responseMessage').innerText = "Вашата поръчка е изпратена успешно!";
                     localStorage.removeItem('cartCount');
                     localStorage.removeItem('cartTotal');
-                    displayCartInfo(); // Обновяване на информацията
+                    displayCartInfo();
                 } else {
                     throw new Error(`Error: ${response.status}`);
                 }
             })
             .catch(error => {
                 console.error('EmailJS Error:', error);
-                document.getElementById('responseMessage').innerText = "Грешка при изпращане на поръчката! Вижте конзолата за повече информация.";
+                document.getElementById('responseMessage').innerText = "Грешка при изпращане на поръчката!";
             });
         });
     </script>
