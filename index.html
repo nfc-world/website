@@ -268,36 +268,37 @@
 
     // Update the cart display
     function updateCart() {
-        const cartCount = document.getElementById('cart-count');
-        const cartContent = document.getElementById('cart-content');
-        const cartTotal = document.getElementById('cart-total');
-        const buyButton = document.getElementById('buy-button');
-        const buyTotal = document.getElementById('buy-total');
-        const emptyCartMessage = document.getElementById('empty-cart-message');
-        
-        // Show or hide the empty cart message
-        if (cart.length === 0) {
-            cartContent.innerHTML = '';
-            cartCount.textContent = '0';
-            cartTotal.textContent = 'Общо: 0 лв.';
-            buyButton.style.display = 'none'; // Hide the "Buy" button when the cart is empty
-            emptyCartMessage.style.display = 'block';
-        } else {
-            emptyCartMessage.style.display = 'none';
-            cartCount.textContent = cart.length;
-            const total = cart.reduce((acc, item) => acc + item.price, 0);
-            cartTotal.textContent = 'Общо: ' + total + ' лв.';
-            buyTotal.textContent = total + ' лв.';
-            buyButton.style.display = 'block'; // Show the "Buy" button when the cart is not empty
+    const cartCount = document.getElementById('cart-count');
+    const cartContent = document.getElementById('cart-content');
+    const cartTotal = document.getElementById('cart-total');
+    const buyButton = document.getElementById('buy-button');
+    const buyTotal = document.getElementById('buy-total');
+    const emptyCartMessage = document.getElementById('empty-cart-message');
 
-            cartContent.innerHTML = cart.map((item, index) => 
-                <div class="cart-item">
-                    <span>${item.productName} - ${item.price} лв.</span>
-                    <button onclick="removeFromCart(${index})">Премахни</button>
-                </div>
-            ).join('');
-        }
+    // Show or hide the empty cart message
+    if (cart.length === 0) {
+        cartContent.innerHTML = '';
+        cartCount.textContent = '0';
+        cartTotal.textContent = 'Общо: 0 лв.';
+        buyButton.style.display = 'none'; // Hide the "Buy" button when the cart is empty
+        emptyCartMessage.style.display = 'block';
+    } else {
+        emptyCartMessage.style.display = 'none';
+        cartCount.textContent = cart.length;
+        const total = cart.reduce((acc, item) => acc + item.price, 0);
+        cartTotal.textContent = 'Общо: ' + total + ' лв.';
+        buyTotal.textContent = total + ' лв.';
+        buyButton.style.display = 'block'; // Show the "Buy" button when the cart is not empty
+
+        // Update cart content
+        cartContent.innerHTML = cart.map((item, index) => `
+            <div class="cart-item">
+                <span>${item.productName} - ${item.price} лв.</span>
+                <button onclick="removeFromCart(${index})">Премахни</button>
+            </div>
+        `).join('');
     }
+}
 
     // Toggle cart display
     function toggleCart() {
