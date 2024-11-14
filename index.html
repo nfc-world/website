@@ -32,7 +32,7 @@
         nav a {
             color: white;
             text-align: center;
-            padding: 15px 20px;
+            padding: 15px 10px;
             text-decoration: none;
         }
 
@@ -132,16 +132,16 @@
         }
 
         .card button:hover {
-            background-color: #269431;
+            background-color: #07071a;
         }
 
         /* Cart Items Popup */
         .cart-items {
             display: none;
             position: fixed;
-            top: 60px;
+            top: 80px;
             right: 20px;
-            width: 300px;
+            width: 230px;
             background-color: #ffffff;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -188,7 +188,7 @@
 
 
 	  button {
-    background-color: #28a745; /* Зелен цвят */
+    background-color: #050524; 
     color: white;
     border: none;
     padding: 20px 40px; /* По-голямо отстояние за по-голям бутон */
@@ -200,7 +200,7 @@
 
 /* Плавен преход при ховър */
 button:hover {
-    background-color: #218838; /* Малко по-тъмен зелен при ховър */
+    background-color: #050524; /* Малко по-тъмен зелен при ховър */
     transform: scale(1.1); /* Леко уголемяване при ховър */
 }
 
@@ -314,6 +314,15 @@ button:hover {
             font-weight: bold;
             margin-left: 10px;
         }
+
+	#cartPopup {
+  width: 200px; /* Променете стойността според желания размер */
+  height: auto; /* Ако искате popup-ът да се адаптира спрямо съдържанието */
+  max-height: 400px; /* Ограничение за височината, ако има много артикули */
+  padding: 15px;
+  font-size: 14px; /* Може да намалите и текста, ако желаете */
+}
+
     </style>
 </head>
 <body>
@@ -344,13 +353,13 @@ button:hover {
                 <img src="deniscreen.jpeg" alt="Лична смарт визитка">
                 <h2>Лична смарт визитка</h2>
                 <p>Цена: 20 лв.</p>
-                <button onclick="addToCart('Лична смарт визитка', 20)">Добави в количката</button>
+                <button onclick="addToCart('Лична смарт визитка', 20)">Добавете в количката</button>
             </div>
             <div class="card">
                 <img src="logoscreen.jpeg" alt="Бизнес смарт визитка">
                 <h2>Бизнес смарт визитка</h2>
                 <p>Цена: 25 лв.</p>
-                <button onclick="addToCart('Бизнес смарт визитка', 25)">Добави в количката</button>
+                <button onclick="addToCart('Бизнес смарт визитка', 25)">Добавете в количката</button>
             </div>
         </div>
 
@@ -425,7 +434,7 @@ button:hover {
 
         cart.forEach(item => {
             const listItem = document.createElement('li');
-            listItem.innerHTML = `${item.name} - ${item.price} лв <button class="remove-button" onclick="removeFromCart('${item.name}')">Премахни</button>`;
+            listItem.innerHTML = `${item.name} - ${item.price} лв <button class="remove-button" onclick="removeFromCart('${item.name}')">Премахнете</button>`;
             cartList.appendChild(listItem);
             total += item.price;
         });
