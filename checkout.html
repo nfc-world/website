@@ -3,154 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Завършване на Поръчка</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            width: 100%;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            text-align: center;
-        }
-        input, button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-
-        padding: 12px 25px; /* Increase the size */
-    	background-color: #28a745; /* Green color */
-    	color: white;
-    	border: none;
-    	border-radius: 5px;
-    	cursor: pointer;
-    	font-size: 16px;
-        }
-        button:hover {
-           background-color: #218838;
-        }
-        .error {
-            color: red;
-            font-size: 14px;
-            display: none; /* Hidden initially */
-        }
-	    .contact-info {
-        margin-top: 40px; /* Increased margin-top */
-        font-size: 14px;
-        text-align: center;
-        margin-bottom: 40px; /* Added margin-bottom for more space */
-    }
-    .contact-info a {
-        color: #007bff;
-        text-decoration: none;
-    }
-    </style>
+    <title>Завършване на поръчката</title>
+    <link rel="stylesheet" href="styles_checkout.css">
+    <!-- Включване на EmailJS библиотеката -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        (function() {
+            emailjs.init("TlEa3CKwVPcFf_gKv"); // Вашият публичен ключ от EmailJS
+            console.log("EmailJS инициализиран"); // Потвърждение, че EmailJS е зареден
+        })();
+    </script>
 </head>
 <body>
-    <div class="container">
-        <h2>Завършете Вашата Поръчка</h2>
-        <form id="orderForm">
-            <p id="cartInfo"></p>
-            <input type="text" id="name" placeholder="Вашето име" required>
-            <input type="email" id="email" placeholder="Вашият имейл" required>
-	     <h3>Тук може да добавете линкве към социалните мрежи, телефонен номер и снимка за Вашата смарт визитка чрез Instagram</h3>
+    <div class="checkout-container">
+        <h1>Завършете поръчката</h1>
+        <form id="checkout-form">
+            <div class="form-group">
+                <label for="name">Име и фамилия:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
 
-            <button type="button" id="instagramBtn" onclick="openInstagram()">Добавяне чрез инстаграм</button>
-            <p id="errorText" class="error">Моля изпратете линкове към вашите социални межи, телефонен номер и снимка, за да завършите поръчката.</p>
-            <button type="submit" id="submitBtn">Завършете Вашата поръчка</button>
+            <div class="form-group">
+                <label for="phone">Телефонен номер:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Адрес за доставка:</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Имейл:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Можете да изпратите вашите данни за смарт визитката (линкове към социални мрежи, две имена и снимка) на nfcworldbg@gmail.com</label>
+            </div>
+
+            <div class="order-summary">
+                <h2>Обобщение на поръчката</h2>
+                <ul id="cart-summary"></ul>
+                <p id="total-price">Общо: 0 лв</p>
+            </div>
+
+            <button type="submit" id="submit-button" class="submit-button">Завърши поръчката</button>
         </form>
-        <p id="responseMessage"></p>
-        <a href="index.html">Обратно към началната страница</a>
-    </div>
-
-    <div class="contact-info">
-        <p>Ако имате въпроси или затруднения, свържете се с нас на:</p>
-        <p>Имейл: <a href="mailto:nfcworldbg@gmail.com">nfcworld@gmail.com</a></p>
-        
-	
     </div>
 
     <script>
-        let instagramClicked = false;
+        // Зареждане на продукти от локално хранилище
+        const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+        const totalPrice = localStorage.getItem("totalPrice") || 0;
 
-        // Function to open Instagram and set instagramClicked to true
-        function openInstagram() {
-            window.open('https://www.instagram.com/', '_blank');
-            instagramClicked = true;
-            document.getElementById('errorText').style.display = 'none'; // Hide error message if Instagram is clicked
-        }
+        // Попълване на обобщението на поръчката
+        const cartSummary = document.getElementById('cart-summary');
+        cartItems.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${item.name} - ${item.price} лв`;
+            cartSummary.appendChild(listItem);
+        });
 
-        // Function to display cart info (number of items and total price)
-        function displayCartInfo() {
-            const itemCount = localStorage.getItem('cartCount') || 0;
-            const total = localStorage.getItem('cartTotal') || 0;
-            document.getElementById('cartInfo').innerHTML = `Брой чипове: ${itemCount}<br>Обща сума: ${total} лв.`;
-        }
+        document.getElementById('total-price').textContent = `Общо: ${totalPrice} лв`;
 
-        displayCartInfo();
-
-        // Submit event for the form
-        document.getElementById('orderForm').addEventListener('submit', function(event) {
+        document.getElementById('checkout-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // If Instagram button was not clicked, show error message
-            if (!instagramClicked) {
-                document.getElementById('errorText').style.display = 'block'; // Show error in red
-                return;
-            }
-
-            // Collect data from the form and send it via EmailJS
+            // Извличане на данни от формата
             const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
             const email = document.getElementById('email').value;
-            const itemCount = localStorage.getItem('cartCount') || '0';
-            const total = localStorage.getItem('cartTotal') || '0';
 
-            const emailContent = {
-                service_id: 'service_dgk6x6n',
-                template_id: 'template_e0y4inu',
-                user_id: 'TlEa3CKwVPcFf_gKv',
-                template_params: {
-                    'from_name': name,
-                    'to_name': 'Денислав',
-                    'email': email,
-                    'item_count': itemCount,
-                    'total': total,
-                }
+            // Подготовка на данни за изпращане с EmailJS
+            const templateParams = {
+                name: name,
+                phone: phone,
+                address: address,
+                email: email,
+                cart_items: cartItems.map(item => `${item.name} - ${item.price} лв`).join(", "),
+                total_price: `${totalPrice} лв`
             };
 
-            fetch('https://api.emailjs.com/api/v1.0/email/send', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(emailContent)
-            })
-            .then(response => {
-                if (response.ok) {
-                    document.getElementById('responseMessage').innerText = "Вашата поръчка е изпратена успешно!";
-                    localStorage.removeItem('cartCount');
-                    localStorage.removeItem('cartTotal');
-                    displayCartInfo();
-                } else {
-                    throw new Error(`Error: ${response.status}`);
-                }
-            })
-            .catch(error => {
-                console.error('EmailJS Error:', error);
-                document.getElementById('responseMessage').innerText = "Грешка при изпращане на поръчката!";
-            });
+            // Лог на данните, които ще се изпратят
+            console.log("Подготвяме се да изпратим следните данни:", templateParams);
+
+            // Изпращане на имейл чрез EmailJS
+            emailjs.send('service_dgk6x6n', 'template_e0y4inu', templateParams)
+                .then(function(response) {
+                    // Успешно изпратен имейл
+                    console.log("Имейлът беше изпратен успешно!", response.status, response.text);
+                    // Пренасочване към thank-you.html след успешно изпращане
+                    window.location.href = "thank-you.html";
+                })
+                .catch(function(error) {
+                    // Грешка при изпращането на имейл
+                    console.error("Грешка при изпращането на имейл:", error);
+                    alert(`Възникна грешка при изпращането на поръчката. Моля, опитайте отново. Код на грешка: ${error.status}`);
+                });
         });
     </script>
 </body>
