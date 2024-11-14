@@ -170,6 +170,42 @@
             cursor: pointer;
         }
 
+	.remove-button {
+    background-color: #9c0c24; /* Зелен цвят */
+    color: white;
+    padding: 2px 3px; /* По-голямо отстояние */
+    border-radius: 8px; /* Заоблени ъгли */
+    font-size: 0.8em; /* По-голям текст */
+    border: none; /* Без рамка */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.remove-button:hover {
+    background-color: #42030e; /* Малко по-тъмен зелен цвят при задържане на курсора */
+    transform: scale(1.05); /* Леко уголемяване при задържане */
+}
+
+
+	  button {
+    background-color: #28a745; /* Зелен цвят */
+    color: white;
+    border: none;
+    padding: 20px 40px; /* По-голямо отстояние за по-голям бутон */
+    border-radius: 10px; /* Закръглени ръбове */
+    font-size: 1.3em; /* По-голям шрифт */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Плавни преходи */
+}
+
+/* Плавен преход при ховър */
+button:hover {
+    background-color: #218838; /* Малко по-тъмен зелен при ховър */
+    transform: scale(1.1); /* Леко уголемяване при ховър */
+}
+
+	 
+
         .cart-total {
             text-align: right;
             font-size: 1.2em;
@@ -222,9 +258,67 @@
             margin-bottom: 15px;
             font-size: 1.1em;
         }
+
+        #benefits {
+            margin-top: 70px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #benefits h2 {
+            text-align: center;
+            font-size: 2em;
+	    margin-bottom: 45px;
+            color: #011c2e;
+        }
+
+        #benefits ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #benefits li {
+            margin-bottom: 25px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        #benefits li strong {
+            color: #011c2e;
+        }
+
+        #buy-now-button {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            background-color: #011c2e;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            z-index: 100;
+            transition: background-color 0.3s ease;
+        }
+
+        #buy-now-button:hover {
+            background-color: #1f7b28;
+        }
+
+        #total-price {
+            font-weight: bold;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
+
+    
     <!-- Navigation Bar -->
     <nav>
         <a href="javascript:location.reload();">Начало</a>
@@ -234,10 +328,14 @@
     </nav>
 
     <!-- Header Section -->
-    <header>
-        <h1>NFC WORLD</h1>
-        <p>„Един чип, безкрайни възможности!“</p>
-    </header>
+    <header style="text-align: center; padding: 20px; background-color: #333; color: #fff;">
+    <h1 style="font-size: 3em; margin: 0; font-family: Arial, sans-serif; letter-spacing: 2px; text-transform: uppercase; color: #fff;">
+        NFC WORLD
+    </h1>
+    <p style="font-size: 1.2em; font-style: italic; margin-top: 10px; font-family: 'Georgia', serif; color: #ccc;">
+        „Един чип, безкрайни възможности!“
+    </p>
+</header>
 
     <!-- Product Section -->
     <section>
@@ -255,76 +353,113 @@
                 <button onclick="addToCart('Бизнес смарт визитка', 25)">Добави в количката</button>
             </div>
         </div>
+
+ <!-- Benefits Section -->
+    <section id="benefits">
+        <h2>Плюсовете на смарт визитките:</h2>
+        <ul style="list-style-type: none; padding: 0;">
+        <li><strong>Екологични:</strong> Без хартия, без отпадъци – смарт визитките са изцяло цифрови и не замърсяват околната среда.</li>
+        <li><strong>Удобство:</strong> Лесно споделяне на контактна информация чрез NFC технология с едно докосване на телефона.</li>
+        <li><strong>Актуализация в реално време:</strong> Можете да актуализирате информацията си веднага и всички, които сканират вашата визитка, ще имат най-новите данни.</li>
+        <li><strong>Професионален имидж:</strong> Смарт визитките показват, че сте в крак с новите технологии и се грижите за удобството на своите партньори и клиенти.</li>
+        <li><strong>Множество опции:</strong> Можете да добавите линкове към социални мрежи, портфолио или други важни ресурси.</li>
+    </ul>
+
+    <h2 style="margin-top: 80px;"><strong>Защо да изберете нас:</strong></h2>
+    <ul style="list-style-type: none; padding: 20;">
+        <li><strong>Надеждност:</strong> Предоставяме висококачествени смарт визитки с гарантирана дълготрайност и сигурност.</li>
+        <li><strong>Лесна настройка:</strong> Нашите смарт визитки са лесни за използване и активиране, дори за хора без технически опит.</li>
+        <li><strong>Персонализиране:</strong> Предлагаме възможности за персонализиране на визитката спрямо вашите предпочитания и нужди.</li>
+        <li><strong>Професионализъм:</strong> Ние се грижим за всеки детайл, за да осигурим най-доброто обслужване и качество на нашите продукти.</li>
+    </ul>       
     </section>
 
     <!-- Contact Section -->
     <section id="contact">
-        <h2>Контакти</h2>
+        <h2>Kонтакти</h2>
         <ul>
-            <li><i class="fas fa-phone"></i> Телефон: +359 878 22 0107</li>
-            <li><i class="fas fa-envelope"></i> Имейл: <a href="mailto:nfcworldbg@gmail.com">nfcworld@gmail.com</a></li>
-            <li><i class="fab fa-instagram"></i> Instagram: <a href="https://www.instagram.com/nfcworldbg/">@nfcworldbg</a></li>
+            <li>Телефон: +359 878 2201 07</li>
+            <li>Email: <a href="mailto:nfcworldbg@gmail.com">nfcworldbg@gmail.com</a></li>
+            <li>Instagram: <a href="https://www.instagram.com/nfcworldbg" target="_blank">nfcworldbg</a></li>
+
         </ul>
     </section>
 
-    <!-- Cart Icon -->
-    <div class="cart-icon" onclick="toggleCart()">
-        <i class="fas fa-shopping-cart"></i><span id="cart-count">0</span>
+ 
+    <!-- Cart Popup -->
+    <div id="cart-popup" class="cart-items">
+        <h2>Вашата количка</h2>
+        <div id="cart-items-list"></div>
+        <div class="cart-total">
+            Общо: <span id="total-price">0</span> 
+        </div>
+        <button id="checkout-button" style="display:none;" onclick="finishOrder()">Завършете поръчката</button>
+    
     </div>
 
-    <!-- Cart Items -->
-    <div class="cart-items" id="cart-items">
-        <h2>Вашата количка</h2>
-        <div id="cart-list"></div>
-        <div class="cart-total" id="cart-total"></div>
-        <button class="checkout-button" id="checkout-button" onclick="checkout()">Завърши поръчката</button>
+    <!-- Checkout Button -->
+   
+    <!-- Cart Icon -->
+    <div class="cart-icon" onclick="toggleCartPopup()">
+        <i class="fas fa-shopping-cart"></i>
+     
     </div>
 
     <script>
-        let cart = [];
+    let cart = [];
 
-        // Add product to cart
-        function addToCart(name, price) {
-            cart.push({ name, price });
-            updateCart();
-        }
+    // Function to add items to the cart
+    function addToCart(item, price) {
+        const cartItem = { name: item, price: price };
+        cart.push(cartItem);
+        updateCart();
+    }
 
-        // Update cart display
-        function updateCart() {
-            const cartList = document.getElementById('cart-list');
-            const cartTotal = document.getElementById('cart-total');
-            const cartCount = document.getElementById('cart-count');
-            let total = 0;
-            cartList.innerHTML = '';
-            cart.forEach(item => {
-                total += item.price;
-                cartList.innerHTML += `<div class="cart-item">
-                    <span>${item.name}</span>
-                    <span>${item.price} лв.</span>
-                    <button onclick="removeFromCart('${item.name}')">Премахни</button>
-                </div>`;
-            });
-            cartTotal.innerText = `Общо: ${total} лв.`;
-            cartCount.innerText = cart.length;
-            document.getElementById('checkout-button').style.display = cart.length > 0 ? 'block' : 'none';
-        }
+    // Update cart display and total price
+    function updateCart() {
+        const cartPopup = document.getElementById('cart-popup');
+        const totalPriceElement = document.getElementById('total-price');
+        const cartList = cartPopup.querySelector('ul') || document.createElement('ul');
+        cartList.innerHTML = ''; // Clear previous items
+        let total = 0;
 
-        // Remove product from cart
-        function removeFromCart(name) {
-            cart = cart.filter(item => item.name !== name);
-            updateCart();
-        }
+        cart.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `${item.name} - ${item.price} лв <button class="remove-button" onclick="removeFromCart('${item.name}')">Премахни</button>`;
+            cartList.appendChild(listItem);
+            total += item.price;
+        });
 
-        // Toggle cart visibility
-        function toggleCart() {
-            const cartItems = document.getElementById('cart-items');
-            cartItems.style.display = cartItems.style.display === 'block' ? 'none' : 'block';
-        }
+        totalPriceElement.innerHTML = `Общо: ${total} лв`;
+        cartPopup.appendChild(cartList);
+        cartPopup.style.display = 'block';
+        document.getElementById('checkout-button').style.display = 'block';
+    }
 
-        // Checkout function
-        function checkout() {
-            window.location.href = "checkout.html";
-        }
-    </script>
+    // Remove item from cart
+    function removeFromCart(itemName) {
+        cart = cart.filter(item => item.name !== itemName);
+        updateCart();
+    }
+
+    // Hide cart popup
+    function closeCartPopup() {
+        document.getElementById('cart-popup').style.display = 'none';
+        document.getElementById('checkout-button').style.display = 'none';
+    }
+
+    function finishOrder() {
+    // Пресмятане на общата цена
+    const totalPrice = cart.reduce((total, product) => total + product.price, 0);
+    const totalItems = cart.length;
+
+    // Записване на данни в localStorage
+    localStorage.setItem("cartItems", JSON.stringify(cart));
+    localStorage.setItem("totalPrice", totalPrice);
+    localStorage.setItem("totalItems", totalItems);
+
+    // Пренасочване към checkout.html
+    window.location.href = "checkout.html";
+}</script>
 </body>
 </html>
