@@ -424,13 +424,24 @@ button:hover {
 </section>
 
 
-    <!-- Checkout Button -->
-   
-    <!-- Cart Icon -->
-    <div class="cart-icon" onclick="toggleCartPopup()">
-        <i class="fas fa-shopping-cart"></i>
-     
+     <div id="cart-popup" class="cart-items" style="display: none;">
+    <h2>Количка</h2>
+    <div id="cart-items-list"></div>
+    <div class="cart-total">
+        Общо: <span id="cart-total">0 лв</span>
     </div>
+</div>
+
+<!-- Cart Icon -->
+<div id="cart-icon" class="cart-icon" onclick="toggleCart()">
+    <i class="fas fa-shopping-cart"></i>
+    <span id="cart-item-count">0</span>
+</div>
+
+<button id="buy-now-button" style="display: none;" onclick="window.location.href='checkout.html'">
+    Купете сега <span id="total-price">0 лв</span>
+</button>
+
 
     <script>
     let cart = [];
