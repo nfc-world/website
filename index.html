@@ -10,6 +10,8 @@
     <title>NFC WORLD - Онлайн Визитки</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
     <style>
         /* General Styling */
         body {
@@ -233,31 +235,47 @@ button:hover {
             background-color: #1f7b28;
         }
 
-        /* Contact Section */
-        #contact {
-            margin-top: 60px;
-            padding: 40px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+       /* Contact Section */
+    #contact {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    padding: 40px;
+    background-color: #f4f4f4; /* Светъл фон за секцията */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-        #contact h2 {
-            text-align: center;
-            font-size: 2em;
-            color: #011c2e;
-        }
+	#contact h2 {
+    text-align: center;
+    font-size: 2em;
+    color: #011c2e;; /* Цвят на заглавието */
+	}
 
-        #contact ul {
-            list-style-type: none;
-            padding: 0;
-            text-align: center;
-        }
+	#contact ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+	}
 
-        #contact li {
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
+	#contact li {
+    margin-bottom: 30px;
+    font-size: 1.1em;
+	}
+
+	#contact i {
+    margin-right: 10px;
+    font-size: 1.3em;
+    color: #011c2e; /* Цвят на иконките */
+	}
+
+	#contact a {
+    text-decoration: none;
+    color: #333; /* Цвят на текста */
+	}
+
+	#contact a:hover {
+    color: #1f7b28; /* Цветът на текста при hover */
+}
 
         #benefits {
             margin-top: 70px;
@@ -383,28 +401,28 @@ button:hover {
     </ul>       
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <h2>Kонтакти</h2>
-        <ul>
-            <li>Телефон: +359 878 2201 07</li>
-            <li>Email: <a href="mailto:nfcworldbg@gmail.com">nfcworldbg@gmail.com</a></li>
-            <li>Instagram: <a href="https://www.instagram.com/nfcworldbg" target="_blank">nfcworldbg</a></li>
-
-        </ul>
-    </section>
-
  
-    <!-- Cart Popup -->
-    <div id="cart-popup" class="cart-items">
-        <h2>Вашата количка</h2>
-        <div id="cart-items-list"></div>
-        <div class="cart-total">
-            Общо: <span id="total-price">0</span> 
-        </div>
-        <button id="checkout-button" style="display:none;" onclick="finishOrder()">Завършете поръчката</button>
-    
-    </div>
+    <section id="contact">
+    <h2>Контакти:</h2>
+    <ul>
+        <li>
+            <a href="tel:+359878220107" target="_blank">
+                <i class="fas fa-phone-alt"></i> Телефон: +359 878 22 0107
+            </a>
+        </li>
+        <li>
+            <a href="mailto:nfcworldbg@gmail.com" target="_blank">
+                <i class="fas fa-envelope"></i> Имейл: nfcworldbg@gmail.com
+            </a>
+        </li>
+        <li>
+            <a href="https://www.instagram.com/nfcworldbg" target="_blank">
+                <i class="fab fa-instagram"></i> Instagram: nfcworldbg
+            </a>
+        </li>
+    </ul>
+</section>
+
 
     <!-- Checkout Button -->
    
@@ -450,6 +468,8 @@ button:hover {
         cart = cart.filter(item => item.name !== itemName);
         updateCart();
     }
+
+
 
     // Hide cart popup
     function closeCartPopup() {
